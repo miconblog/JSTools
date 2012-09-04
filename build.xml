@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="JSTools">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+    	<property name="src" location="D:/workspace/JSTools"/>
+        <jar destfile="${src}/build/JSTools.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="com.miconblog.jstools.MainApp"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+        	<fileset dir="${src}/res"/>
+            <fileset dir="${src}/bin"/>
+        	
+        	<zipfileset excludes="META-INF/*.SF" src="${src}/lib/yuicompressor-2.4.7.jar"/>
+        	<zipfileset excludes="META-INF/*.SF" src="${src}/lib/js2.jar"/>
+        </jar>
+    </target>
+	
+	<target name="release_jstools" depends="create_run_jar">
+		<copy todir="${basedir}/build/doc">
+    		<fileset dir="${basedir}/doc">
+    			<exclude name="**/*.xml" />
+    		</fileset>
+    	</copy>
+		<mkdir dir="${basedir}/release"/>
+    	<zip destfile="${basedir}/release/JSTools.zip"
+    	       basedir="${basedir}/build"
+    	  />
+		
+		<delete includeemptydirs="true">
+    		<fileset dir="${basedir}/build" includes="**/*"/>
+    	</delete>
+	</target>
+	
+	<target name="~jslint" description="test">
+		<exec executable="java">
+			<arg line="-jar" />
+			<arg path="${basedir}/build/JSTools.jar" />
+			<arg value="-conf=./doc/jstools.conf"/>
+			<arg value="-jslint" />
+		</exec>
+	</target>
+	
+	<target name="~jsmeter" description="test">
+		<exec executable="java">
+			<arg line="-jar" />
+			<arg path="${basedir}/build/JSTools.jar" />
+			<arg value="-conf=./doc/jstools.conf"/>
+			<arg value="-jsmeter" />
+		</exec>
+	</target>
+	
+	<target name="~listout" description="test">
+		<exec executable="java">
+			<arg line="-jar" />
+			<arg path="${basedir}/build/JSTools.jar" />
+			<arg value="-conf=./doc/jstools.conf"/>
+			<arg value="-list=./samples/listout/mergelist.txt" />
+			<arg value="-output=./samples/listout/list.txt"/>
+			<arg value="-listout" />
+		</exec>
+	</target>
+	
+	<target name="~remove_comments" description="test">
+		<exec executable="java">
+			<arg line="-jar" />
+			<arg path="${basedir}/build/JSTools.jar" />
+			<arg value="./samples/js2/CalculateMileage.js"/>
+			<arg value="-compress=1"/>
+			<arg value="-line-break=100"/>
+			<arg value="-conf=./doc/jstools.conf"/>
+			<arg value="-output=./samples/js2/CalculateMileaged.js" />
+		</exec>
+	</target>
+
+	<target name="~merge_files" description="merge files">
+		<exec executable="java">
+			<arg line="-jar" />
+			<arg path="${basedir}/build/JSTools.jar" />
+	    	<arg value="-conf=D:\workspace\jPower\builder\jstools.conf"/>
+		</exec>
+	</target>
+	
+	<target name="~merge_files_with_list" description="merge files">
+		<exec executable="java">
+			<arg line="-jar" />
+			<arg path="${basedir}/build/JSTools.jar" />
+			<arg value="-list=${basedir}/doc/mergelist.txt"/>
+		</exec>
+	</target>
+	
+	<target name="~uglify_files_with_list" description="compress files">
+		<exec executable="java">
+			<arg line="-jar" />
+			<arg path="${basedir}/build/JSTools.jar" />
+			<arg value="-list=${basedir}/doc/mergelist.txt"/>
+			<arg value="-compress=5"/>
+			<arg value="-output=${basedir}/compress.js"/>
+			<arg value="-line-break=100"/>
+			<arg value="-keeplicense"/>
+		</exec>
+	</target>
+	
+	<target name="~merge_ms949" description="merge files">
+		<exec executable="java">
+			<arg line="-jar" />
+			<arg path="${basedir}/build/JSTools.jar" />
+			<arg value="-list=${basedir}/samples/ms949/mergelist.txt"/>
+			<arg value="-conf=${basedir}/samples/ms949/jstools.conf"/>
+		</exec>
+	</target>
+	
+	<target name="~preprossor" description="merge files">
+		<exec executable="java">
+			<arg line="-jar" />
+			<arg path="${basedir}/build/JSTools.jar" />
+			<arg value="${basedir}/samples/tpl/template.tpl"/>
+			<arg value="-output=${basedir}/samples/tpl/template.js"/>
+			<arg value="-tplcomplie"/>
+		</exec>
+	</target>
+	
+	<target name="~preprossor_list" description="merge files">
+			<exec executable="java">
+				<arg line="-jar" />
+				<arg path="${basedir}/build/JSTools.jar" />
+				<arg value="${basedir}/samples/tpl"/>
+				<arg value="-output=${basedir}/samples/tpl/tpl.js"/>
+				<arg value="-tplcomplie"/>
+			</exec>
+		</target>
+	
+</project>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="" name="JSTools Samples">
+	<target name="~jslint" description="test">
+		<exec executable="java">
+			<arg line="-jar" />
+			<arg path="${basedir}/build/JSTools.jar" />
+			<arg value="./samples/js2/removed.js"/>
+			<arg value="-conf=./doc/jstools.conf"/>
+			<arg value="-jslint" />
+		</exec>
+	</target>
+	
+	<target name="~jsmeter" description="test">
+		<exec executable="java">
+			<arg line="-jar" />
+			<arg path="${basedir}/build/JSTools.jar" />
+			<arg value="-conf=./doc/jstools.conf"/>
+			<arg value="-jsmeter" />
+		</exec>
+	</target>
+	
+	<target name="~merge" description="test">
+		<exec executable="java">
+			<arg line="-jar" />
+			<arg path="${basedir}/build/JSTools.jar" />
+			<arg value="./samples"/>
+			<arg value="-compress=0"/>
+			<arg value="-output=./samples/js2/jindo2_removed.js" />
+		</exec>
+	</target>
+	
+	<target name="~remove_comments" description="test">
+		<exec executable="java">
+			<arg line="-jar" />
+			<arg path="${basedir}/build/JSTools.jar" />
+			<arg path="-list=mergelist.txt" />
+			<arg value="-compress=1"/>
+		</exec>
+	</target>
+
+	<target name="~compress" description="test">
+		<exec executable="java">
+			<arg line="-jar" />
+			<arg path="-list=./mergelist.txt" />
+			<arg path="-conf=./jstools.conf" />
+			<arg path="${basedir}/build/JSTools.jar" />
+			<arg value="-compress=2"/>
+		</exec>
+	</target>
+	
+	<target name="~ofuscate" description="test">
+		<exec executable="java">
+			<arg line="-jar" />
+			<arg path="-list=./mergelist.txt" />
+			<arg path="${basedir}/build/JSTools.jar" />
+			<arg value="-compress=3"/>
+		</exec>
+	</target>
+	
+	<target name="~optimaize" description="test">
+		<exec executable="java">
+			<arg line="-jar" />
+			<arg path="-conf=./jstools.conf" />
+			<arg path="${basedir}/build/JSTools.jar" />
+			<arg value="-compress=4"/>
+		</exec>
+	</target>
+</project>

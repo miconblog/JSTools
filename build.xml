@@ -3,7 +3,7 @@
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
     <target name="create_run_jar">
-    	<property name="src" location="D:/workspace/JSTools"/>
+    	<property name="src" location="C:\Users\skplanet\git\JSTools2"/>
         <jar destfile="${src}/build/JSTools.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Main-Class" value="com.miconblog.jstools.MainApp"/>

@@ -34,7 +34,7 @@ public class LicenseComment {
 		if( bProcessEnd ) { return false; }
 		
 		// 일단 라이센스 주석을 찾아보자!
-		if ( !bFindLicense && strLine.contains("/***") ){
+		if ( !bFindLicense && ( strLine.contains("/***") || strLine.contains("/*!") ) ){
 			bFindLicense = true;
 			str = strLine+"\n";
 			return true;
@@ -85,5 +85,4 @@ public class LicenseComment {
 	public String getLicenseComment(int key){
 		return (String) map.remove(key);
 	}
-
 }

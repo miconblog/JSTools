@@ -142,9 +142,34 @@ public class MainApp {
 	}
 
 	private static boolean validateConfiguration() {
+		// jslint를 걸었는데.. 파일 타입이 css 인경우에는 오류 발생!
+		if ( conf.getFileType().toUpperCase().equals("CSS") && (conf.getJSLint() || conf.getJSMeter())){
+			System.err.println("[ERROR] Can't mixed your css filetype option with jslint and jsmeter!");
+			return false;
+		}
+		
+		
 		if ( conf.getFileType().toUpperCase().equals("CSS") && (conf.getCompress() < 2)){
 			System.err.println("[WARN]\n   If you use this option (compress=1), CSS Hack CAN NOT WORK.");
 		}
+		
+		// 컴프래스 옵션이 5인 경우 자동으로 4로 낮춘다. 
+		if ( conf.getFileType().toUpperCase().equals("CSS") && (conf.getCompress() == 5)){
+			System.err.println("[WARN] your compress option is changed 5 to 4!");
+			conf.setCompress(4);
+		}
+		
+		// -jslint 옵션이나 -jsmeter 옵션인 경우에는 compress 옵션을 0으로 바꾼다. 
+		if ( conf.getJSLint() && (conf.getCompress() > 0)){
+			System.err.println("[INFO] Ignored your compress option by JSLint!");
+			conf.setCompress(0);
+		}
+		
+		if ( conf.getJSMeter() && (conf.getCompress() > 0)){
+			System.err.println("[INFO] Ignored your compress option by JSLint!");
+			conf.setCompress(0);
+		}
+		
 		return true;
 	}
 

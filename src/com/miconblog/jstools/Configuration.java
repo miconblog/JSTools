@@ -11,8 +11,8 @@ import java.util.regex.Pattern;
 
 public class Configuration {
 
-	private String version = "2.7.0 nightly";
-	private String releaseDate = "2012-08-14";
+	private String version = "2.7.1";
+	private String releaseDate = "2013-06-25";
 	private String output;
 	private int compress;
 	private int lineBreak;
@@ -392,6 +392,9 @@ public class Configuration {
 	public void setCompress(String string) {
 		this.compress = Integer.parseInt(string);
 	}
+	public void setCompress(int number) {
+		this.compress = number;
+	}
 
 	public void setPattern(String string) {
 		this.removePattern =  Pattern.compile(string);
@@ -536,4 +539,6 @@ public class Configuration {
 		}
 		
 	}
+
+	
 }

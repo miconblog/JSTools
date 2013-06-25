@@ -62,6 +62,10 @@ public class TestRemoveComment extends TestCase{
 		assertEquals("", RemoveComment.removeBlockComment("/** NHN Web Standardization"));
 	}
 	
+	public void testBlockComment3() {
+		assertEquals("}, width = WD - margin.left - margin.right, height = HT - margin.top - margin.bottom;", RemoveComment.removeBlockComment("}, width = /*942/2*/WD - margin.left - margin.right, height = /*400/2*/HT - margin.top - margin.bottom;"));
+	}
+	
 	public void testException1() {
 		assertEquals("if (/^\\s*$/.test(sKeyword)) { ", RemoveComment.removeSingleLineComment("if (/^\\s*$/.test(sKeyword)) { // 아무것도 입력 안 했으면"));
 	}

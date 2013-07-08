@@ -4,7 +4,10 @@
 # 골뱅이(@)와 {%=xxxx%}를 이용해 문자열을 치환할수있다.
 # 샵(#)이나 더블 슬래시(//)를 이용한 한줄 주석이 가능하다.
 # 명시적으로 Include를 지정하지 않아도 목록이 추가된다. 
- 
+
+# CustomTag <jstools:merge>를 사용하려면 절대경로를 상대경로로 치환하기위해 아래 두 값을 반드시 지정해야한다.  
+# @ROOT="C:/src/main/webapp/" 				// ROOT값은 REPLACEMENT값으로 자동 치환된다.  
+# @REPLACEMENT="/"
 
 @path="./src/main/webapp/js"				// 상대경로로 잡으면, JSTools를 실행하는 빌드의 경로가 루트로 잡힌다. (JSTools가 위치한 폴더가 아님)
 @path2="D:/workspace/JSTools/samples/js2"	// 절대 경로로 잡을수도 있다. 

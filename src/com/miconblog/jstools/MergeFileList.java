@@ -14,6 +14,7 @@ public class MergeFileList {
 	private ArrayList<String> exclude;
 	private ArrayList<String> include;
 	private String fileType;
+	private BufferedReader in;
 
 	public MergeFileList() {
 		this.hashTable = new HashMap<String, String>();
@@ -22,11 +23,21 @@ public class MergeFileList {
 		this.fileType = "JS";
 	}
 	
+	/**
+	 * 커스텀 태그 사용할 경우 하나의 인스턴스를 이용해 반복 실행될수 있으므로 
+	 * 매번 변수는 초기화 할 필요가 있다.  
+	 * @param file
+	 * @param fileType
+	 * @throws IOException
+	 */
 	public void extractMergeFilesFromList(File file, String fileType) throws IOException {
+		this.hashTable.clear();
+		this.include.clear();
+		this.exclude.clear();
 		this.fileType = fileType;
 		Pattern regex = Pattern.compile("(?:\\s*|\\t*)//.*");
 		
-		BufferedReader in = new BufferedReader(new FileReader(file));
+		in = new BufferedReader(new FileReader(file));
 		String strLine;
 		while ((strLine = in.readLine()) != null) {
 			strLine = strLine.replaceAll(regex.toString(), "");
@@ -142,6 +153,24 @@ public class MergeFileList {
 	public ArrayList<String> getMergeList() {
 		return include;
 	}
+	
+	public ArrayList<String> getListforCustomTag() {
+		ArrayList<String> list = new ArrayList<String>();
+		
+		String target = hashTable.get("ROOT");
+		String replacement = hashTable.get("REPLACEMENT");
+		
+		try{
+			for(String s: include){
+				list.add(s.replace(target, replacement));
+			}	
+		}catch(NullPointerException e){
+			System.err.println("ERROR: com.miconblog.jstools.MergeFileList - Need @ROOT and @REPLACEMENT values in the mergelist file.");
+			return null;
+		}
+		
+		return list;
+	} 
 
 	public boolean canExcute() {
 		if(include.size() > 0) return true;

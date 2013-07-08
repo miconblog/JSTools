@@ -1,12 +1,7 @@
-/*
- * @(#)MergeTag.java $version 2011. 12. 12.
- *
- * Copyright 2007 NHN Corp. All rights Reserved. 
- * NHN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
 package com.miconblog.jstools.taglib;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,17 +16,11 @@ import org.slf4j.LoggerFactory;
 
 import com.miconblog.jstools.MergeFileList;
 
-/**
- * @author tugs
- */
 public class MergeTag extends BodyTagSupport {
 
 	private static final long serialVersionUID = -4148258114404445596L;
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(MergeTag.class);
-
 	private static final Map<String, Boolean> MERGED_FILE_CHECKER = new ConcurrentHashMap<String, Boolean>();
-
 	private static final long TIMESTAMP = System.currentTimeMillis();
 	private static final String LINE_BREAK = "\n";
 
@@ -40,28 +29,38 @@ public class MergeTag extends BodyTagSupport {
 	private String mergeListFile;
 	
 	static MergeFileList list = new MergeFileList();
-
+ 
 	@Override
 	public int doAfterBody() throws JspException {
-
-		LOGGER.debug("merged file : {}", mergedFile);
 
 		try {
 
 			String content;
 
 			if (isDebug() == false && existFile(mergedFile)) {
+				
+				LOGGER.info("Compress Mode");
 
 				// 디버그 모드가 아니고, 머지 파일이 있는 경우
 				content = includeStaticString(mergedFile);
 
-// 일단 2.6.0 버전에서는 제외..				
-//			} else if( isDebug() == true && existFile(mergeListFile) ){
-//				
-//				content = includeMergeList(mergeListFile);
+			} else if( isDebug() == true && existListFile(mergeListFile) ){
+				
+				LOGGER.info("Debug Mode");
+				
+				File file = new File(mergeListFile);
+				list.extractMergeFilesFromList(file, "JS");
+				
+				// 목록 파일에서 리스트 불러오기
+				if(list.getListforCustomTag() == null){
+					content = includeStaticString(mergedFile);
+				}else{
+					content = printFromMergeList(list.getListforCustomTag());	
+				}
 				
 			} else {
 				
+				LOGGER.info("Inline Mode");
 				// 디버그 모드거나 머지 파일이 없는 경우
 				content = printForDebug();
 			}
@@ -74,16 +73,34 @@ public class MergeTag extends BodyTagSupport {
 		return SKIP_BODY;
 	}
 
-	private String includeMergeList(String mergeList) {
+	/**
+	 * 목록 파일에서 js 파일을 읽어 출력한다.
+	 * @param mergeList
+	 * @return
+	 */
+	private String printFromMergeList(ArrayList<String> mergeList) {
 		
-		
-		
-		
-		return null;
+		StringBuilder sb = new StringBuilder();
+
+		for (String js : mergeList) {
+			
+			if (StringUtils.isNotBlank(js)) {
+				sb.append(includeStaticString(js)).append(LINE_BREAK);
+			} else {
+				sb.append(LINE_BREAK);
+			}
+		}
+
+		return sb.toString();
 	}
 
 	protected JspWriter getWriter() {
 		return getPreviousOut();
+	}
+	
+	boolean existListFile(String mergeListFile){
+		File file = new File(mergeListFile);
+		return file.exists();
 	}
 
 	boolean existFile(String mergedFile) {
@@ -103,7 +120,7 @@ public class MergeTag extends BodyTagSupport {
 		MERGED_FILE_CHECKER.put(absoulutePath, exists);
 
 		if (exists == false) {
-			LOGGER.warn("merged file not exists : {}", mergedFile);
+			LOGGER.info("merged file not exists : {}", mergedFile);
 		}
 
 		return exists;
@@ -133,10 +150,10 @@ public class MergeTag extends BodyTagSupport {
 
 	String includeStaticString(String fileName) {
 
-		String fileNameWithTimeStamp = fileName + "?" + TIMESTAMP;
+		String fileNameWithTimeStamp = fileName.trim() + "?" + TIMESTAMP;
 
 		if (MergeFileType.findMergeFileType(fileName) == MergeFileType.JS) {
-			return "<script type=\"text/javascript\" charset=\"utf-8\" src=\"" + fileNameWithTimeStamp + "\"></script>";
+			return "<script charset=\"utf-8\" src=\"" + fileNameWithTimeStamp + "\"></script>";
 		}
 
 		return StringUtils.EMPTY;
@@ -150,15 +167,33 @@ public class MergeTag extends BodyTagSupport {
 		return getBodyContent().getString();
 	}
 
-	public void setMergedFile(String mergedFile) {
-		this.mergedFile = mergedFile;
-	}
-
-	public void setDebug(String debug) {
-		this.debug = debug;
-	}
 
 	private boolean isDebug() {
 		return "Y".equals(debug);
 	}
+	
+	/**
+	 * TLD 파일에 기술된 속성값 설정
+	 * @param mergedFile 압축한 JS 파일
+	 */
+	public void setMergedFile(String mergedFile) {
+		this.mergedFile = mergedFile;
+	}
+	
+	/**
+	 * TLD 파일에 기술된 속성값 설정
+	 * @param mergeListFile 압축할 목록 파일
+	 */
+	public void setMergeListFile(String mergeListFile) {
+		this.mergeListFile = mergeListFile;
+	}
+
+	/**
+	 * TLD 파일에 기술된 속성값 설정
+	 * @param debug 디버그 속성 [Y/N]
+	 */
+	public void setDebug(String debug) {
+		this.debug = debug;
+	}
+
 }

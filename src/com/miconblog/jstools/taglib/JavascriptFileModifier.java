@@ -1,5 +1,3 @@
-/*
- */
 package com.miconblog.jstools.taglib;
 
 import java.io.ByteArrayInputStream;
@@ -10,15 +8,11 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
-/**
- * @author tugs
- */
 public class JavascriptFileModifier implements FileModifier {
 
 	// white space character + ;;;
 	private static Pattern testCodePattern = Pattern.compile("^[\\s]*(;;;).*");
 
-	@Override
 	public String modify(String fileContent) {
 		return StringUtils.isBlank(fileContent) ? StringUtils.EMPTY : deleteTestCode(fileContent);
 	}
@@ -29,7 +23,6 @@ public class JavascriptFileModifier implements FileModifier {
 
 		try {
 
-			@SuppressWarnings("unchecked")
 			List<String> readLines = IOUtils.readLines(new ByteArrayInputStream(fileContent.getBytes("UTF-8")), "UTF-8");
 
 			for (String line : readLines) {

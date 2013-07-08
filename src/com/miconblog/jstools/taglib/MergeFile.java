@@ -14,8 +14,6 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 public class MergeFile {
 
-	private static final long serialVersionUID = -7472955881649452866L;
-
 	private String mergedFilePath;
 	private List<String> mergeFileList;
 

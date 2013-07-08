@@ -101,10 +101,10 @@
 ### 템플릿 예제
 **1 템플릿 파일을 만든다.**
 >     <!--[sample_tpl_id]-->
-> 	{% 
+> 	  {% 
 > 		for(var i=0; i<data.length; ++i){
 > 			var item = data[i]; 
-> 	%}
+> 	  %}
 > 		{%if( item.header ) { %}
 > 		<h2 class='tb-header{% if(i==0){ %} top{%}else{%} node{%}%}'>{%=item.header%}</h2>
 > 		{%}%}
@@ -161,10 +161,17 @@
 >     /js/app/Controller.js
 >     /js/app/Game.js
 >     </jstools:merge>
-
   - mergedFile 속성은 기술된 파일이 하나로 압축된 파일의 위치를 나타낸다. 
         압축된 해당 파일이 없다면, 기술된 파일을 하나씩 삽입한다.
   - debug 속성이 Y면, 기술된 파일을 하나씩 삽입한다.
+
+3) 목록 파일을 이용해 기술하려면 아래와 같이 작성한다. 
+>     <jstools:merge mergedFile="/js/release/app.js" mergeFileList="builder/mergelist.txt" debug="Y">
+>     </jstools:merge>
+  - mergeFileList 속성을 사용하려면, 반드시 mergelist.txt 파일 안에 절대 경로의 @ROOT 값과 상대경로로 치환할 @REPLACEMENT 값을 지정해야한다. 
+  - 만약 해당 값이 없다면 mergeFileList는 동작하지 않는다.
+  
+
 
 ### 태그 라이브러리를 JSP에서 인식하는 방법
   - 자동으로 태그라이브러리 인식하기
@@ -180,3 +187,6 @@
 #### 그냥 이클립스 Console 창에서 한글이 깨지는 경우 
     Run Configuration > 작성중인 Application 선택 
     Common 탭 > Console Encoding > Other 에서  EUC-KR 선택 (없으면 직접 지정)
+
+#### 메이븐 Repo에 jstools 배포 방법
+> mvn deploy:deploy-file -Dfile=build\jstools-2.7.1.jar -Durl=[Respo URL] -DgroupId=com.miconblog -DartifactId=jstools -Dversion=2.7.1

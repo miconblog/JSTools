@@ -3,7 +3,9 @@
 * 파일 병합, 압축, 난독화, 템플릿 컴파일, 정적분석, 코드 복잡도 계산등을 할수있습니다.
 
 ## 기본 문법
-    %>java -jar JSTools.jar <파일목록> [-옵션]
+~~~
+%> java -jar JSTools.jar <파일목록> [-옵션]
+~~~
 
 ### <파일목록>
  - 필수 옵션으로 반드시 파일명을 나열해야한다. 
@@ -88,11 +90,15 @@
 ## 템플릿 문법
 
 ### 변수 치환 
-  {%= 변수 %}
-  
+~~~
+{%= 변수 %}
+~~~
+
 ### 자바스크립트 문법 사용 
-  {% 자바스크립트 표현식 %}
-   
+~~~
+{% 자바스크립트 표현식 %}
+~~~
+
 ### 템플릿 ID 지정 (단, ID 사이에 공백 있으면 안됨)
 >     <!--[템플릿_ID] -->
 >     	 템플릿 코드 
@@ -100,84 +106,95 @@
 
 ### 템플릿 예제
 **1 템플릿 파일을 만든다.**
->     <!--[sample_tpl_id]-->
-> 	  {% 
-> 		for(var i=0; i<data.length; ++i){
-> 			var item = data[i]; 
-> 	  %}
-> 		{%if( item.header ) { %}
-> 		<h2 class='tb-header{% if(i==0){ %} top{%}else{%} node{%}%}'>{%=item.header%}</h2>
-> 		{%}%}
-> 	
-> 		<div class='tb-item{%if(item.isFirst){%} first{%}%}{%if(item.isLast){%} last{%}%} _tb_select({%=i%})'>
-> 			{%=item.title%}
-> 			{% if(item.hasChild) { %}
-> 				<span class='tb-child'></span>
-> 			{%}%}
-> 		</div>
-> 
-> 	{% } %}
-> 	<!--[/sample_tpl_id]-->
-   
+~~~
+<!--[sample_tpl_id]-->
+{% 
+    for(var i=0; i<data.length; ++i){
+        var item = data[i]; 
+%}
+    {%if( item.header ) { %}
+        <h2 class='tb-header{% if(i==0){ %} top{%}else{%} node{%}%}'>{%=item.header%}</h2>
+    {%}%}
+
+    <div class='tb-item{%if(item.isFirst){%} first{%}%}{%if(item.isLast){%} last{%}%} _tb_select({%=i%})'>
+    {%=item.title%}
+        {% if(item.hasChild) { %}
+        <span class='tb-child'></span>
+    {%}%}
+    </div>
+{% } %}
+<!--[/sample_tpl_id]-->
+~~~ 
+
 **2. 템플릿을 컴파일해서 생성된 js 파일을 삽입한다.**
    
 **3. 아래와 같이 호출해 사용한다.** 
->     var sTpl = Template.get('sample_tpl_id', {
-> 		data : [
-> 			{title:'제목1', header:'test', isFirst:true},
-> 			{title:'제목2', hasChild:true},
-> 			{title:'제목3' isLast:true}]		
-> 	});
-> 	wel.html(sTpl);
-   
+~~~
+var sTpl = Template.get('sample_tpl_id', {
+    data : [
+ 	{title:'제목1', header:'test', isFirst:true},
+ 	{title:'제목2', hasChild:true},
+ 	{title:'제목3' isLast:true}]		
+    });
+wel.html(sTpl);
+~~~
+
 ## ANT 빌드 적용 예제
-	<target name="merge_js_files" description="merge js files from file list.">
-		<echo>Merge Files...</echo>
-		<exec executable="java">
-			<arg line="-jar" />
-			<arg path="${tools.dir}/JSTools.jar" />
-			<arg value="-conf=${source.dir}/jstools.conf"/>
-			<arg value="-compress=2"/>
-			<arg value="-output=${deploy.dir}/result.js"/>
-		</exec>
-	</target>
-	
+~~~
+<target name="merge_js_files" description="merge js files from file list.">
+	<echo>Merge Files...</echo>
+	<exec executable="java">
+		<arg line="-jar" />
+		<arg path="${tools.dir}/JSTools.jar" />
+		<arg value="-conf=${source.dir}/jstools.conf"/>
+		<arg value="-compress=2"/>
+		<arg value="-output=${deploy.dir}/result.js"/>
+	</exec>
+</target>
+~~~	
 	
 ## Taglib 적용 예제
 1) JSP 파일 상단에 태그 라이브러리를 사용하기 위해 아래와 같이 기술한다. 
->     <%@ taglib uri="http://miconblog.com/jstools" prefix="jstools" %>
+~~~
+<%@ taglib uri="http://miconblog.com/jstools" prefix="jstools" %>
+~~~
 
 2) 같은 JSP 파일 안에 삽입할 스크립트 태그를 아래와 같이 작성한다.
->     <jstools:merge mergedFile="/js/release/app.js" debug="N">
->     /js/lib/collie.min.js
->     /js/lib/FPSConsole.js
->     /js/lib/AnimateJS.js
->     /js/common/common.debug.js
->     /js/app/Message.js
->     /js/app/Configure.js
->     /js/app/UI.Background.js
->     /js/app/Object.Basket.js
->     /js/app/Object.BallPool.js
->     /js/app/Controller.js
->     /js/app/Game.js
->     </jstools:merge>
-  - mergedFile 속성은 기술된 파일이 하나로 압축된 파일의 위치를 나타낸다. 
+~~~
+<jstools:merge mergedFile="/js/release/app.js" debug="N">
+     /js/lib/collie.min.js
+     /js/lib/FPSConsole.js
+     /js/lib/AnimateJS.js
+     /js/common/common.debug.js
+     /js/app/Message.js
+     /js/app/Configure.js
+     /js/app/UI.Background.js
+     /js/app/Object.Basket.js
+     /js/app/Object.BallPool.js
+     /js/app/Controller.js
+     /js/app/Game.js
+     </jstools:merge>
+~~~
+ - mergedFile 속성은 기술된 파일이 하나로 압축된 파일의 위치를 나타낸다. 
         압축된 해당 파일이 없다면, 기술된 파일을 하나씩 삽입한다.
-  - debug 속성이 Y면, 기술된 파일을 하나씩 삽입한다.
+ - debug 속성이 Y면, 기술된 파일을 하나씩 삽입한다.
 
 3) 목록 파일을 이용해 기술하려면 아래와 같이 작성한다. 
->     <jstools:merge mergedFile="/js/release/app.js" mergeFileList="builder/mergelist.txt" debug="Y">
->     </jstools:merge>
-  - mergeFileList 속성을 사용하려면, 반드시 mergelist.txt 파일 안에 절대 경로의 @ROOT 값과 상대경로로 치환할 @REPLACEMENT 값을 지정해야한다. 
-  - 만약 해당 값이 없다면 mergeFileList는 동작하지 않는다.
-  
+~~~
+<jstools:merge mergedFile="/js/release/app.js" mergeFileList="builder/mergelist.txt" debug="Y">
+</jstools:merge>
+~~~
+
+ - mergeFileList 속성을 사용하려면, 반드시 mergelist.txt 파일 안에 절대 경로의 @ROOT 값과 상대경로로 치환할 @REPLACEMENT 값을 지정해야한다. 
+ - 만약 해당 값이 없다면 mergeFileList는 동작하지 않는다.
 
 
 ### 태그 라이브러리를 JSP에서 인식하는 방법
   - 자동으로 태그라이브러리 인식하기
     - 서블릿 2.4 이상부터는 web.xml 파일에 tld 설정을 따로 지정하지 않아도 WEB-INF 하위에 tld 파일이 있다면 자동 인식된다.
     - jstools tld 파일은 JSTools.jar 파일의 META-INF/tags 폴더에 있으므로,  
-    - WEB-INF 하위에 lib 폴더를 만들고, JSTools.jar 파일을 복사해 넣으면 자동으로 인식된다.    
+    - WEB-INF 하위에 lib 폴더를 만들고, JSTools.jar 파일을 복사해 넣으면 자동으로 인식된다.
+    - Maven 저장소에 배포해서 다운로드 받는 경우에도 자동 인식된다. 
   
 ## FAQ 
 #### Ant 실행시 이클립스 Console 창에서 한글이 깨질 경우 
@@ -188,5 +205,30 @@
     Run Configuration > 작성중인 Application 선택 
     Common 탭 > Console Encoding > Other 에서  EUC-KR 선택 (없으면 직접 지정)
 
-#### 메이븐 Repo에 jstools 배포 방법
-> mvn deploy:deploy-file -Dfile=build\jstools-2.7.1.jar -Durl=[Respo URL] -DgroupId=com.miconblog -DartifactId=jstools -Dversion=2.7.1
+#### 메이븐(Maven) 저장소에 jstools.jar 파일 배포 방법
+ - 메이븐 저장소가 구축되어 있다는 전제로 다음과 같은 명령을 이용한다. 
+ - 릴리즈 버전 배포하기
+~~~
+> mvn deploy:deploy-file -Dfile=build\jstools-2.7.1.jar -Durl=[Respo URL] -DgroupId=com.miconblog -DartifactId=jstools -Dversion=2.8.0
+~~~
+ - 개발버전 배포는 postfix로 반드시 -SNAPSHOT을 붙여야한다.
+~~~
+> mvn deploy:deploy-file -Dfile=build\jstools-2.7.1.jar -Durl=[Respo URL] -DgroupId=com.miconblog -DartifactId=jstools -Dversion=2.8.0-SNAPSHOT
+~~~
+
+#### 메이븐 저장소에 배포된 jstools 땡겨오기
+ - jstools 는 여러 라이브러리에 의존하기 때문에 관련된 라이브러리도 같이 기술해야한다.
+ - 개발버전일 경우 version에 **-SNAPSHOT**을 붙여준다.
+~~~
+<!-- jstools -->
+<dependency>
+	<groupId>com.miconblog</groupId>
+	<artifactId>jstools</artifactId>
+	<version>2.8.0-SNAPSHOT</version>
+</dependency>
+<dependency>
+	<groupId>commons-lang</groupId>
+	<artifactId>commons-lang</artifactId>
+	<version>2.6</version>
+</dependency>
+~~~

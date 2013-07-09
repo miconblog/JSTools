@@ -40,5 +40,5 @@ How to excute
 Reference
 ====
 > you can get more infomation on **/doc** folder.
-
+> https://github.com/miconblog/JSTools/tree/master/doc
 

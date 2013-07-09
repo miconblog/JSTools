@@ -231,8 +231,18 @@ $> mvn deploy:deploy-file -Dfile=build\jstools-2.7.1.jar -Durl=[Respo URL] -Dgro
 	<version>2.8.0-SNAPSHOT</version>
 </dependency>
 <dependency>
+	<groupId>commons-io</groupId>
+	<artifactId>commons-io</artifactId>
+	<version>2.2</version>
+</dependency>
+<dependency>
 	<groupId>commons-lang</groupId>
 	<artifactId>commons-lang</artifactId>
 	<version>2.6</version>
+</dependency>
+<dependency>
+	<groupId>org.slf4j</groupId>
+	<artifactId>slf4j-api</artifactId>
+	<version>1.6.4</version>
 </dependency>
 ~~~

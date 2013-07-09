@@ -173,7 +173,7 @@ wel.html(sTpl);
      /js/app/Object.BallPool.js
      /js/app/Controller.js
      /js/app/Game.js
-     </jstools:merge>
+</jstools:merge>
 ~~~
  - mergedFile 속성은 기술된 파일이 하나로 압축된 파일의 위치를 나타낸다. 
         압축된 해당 파일이 없다면, 기술된 파일을 하나씩 삽입한다.
@@ -206,19 +206,23 @@ wel.html(sTpl);
     Common 탭 > Console Encoding > Other 에서  EUC-KR 선택 (없으면 직접 지정)
 
 #### 메이븐(Maven) 저장소에 jstools.jar 파일 배포 방법
- - 메이븐 저장소가 구축되어 있다는 전제로 다음과 같은 명령을 이용한다. 
+ - 메이븐 저장소가 구축되어 있다는 전제로 커맨드라인에서 다음과 같이 입력한다.
  - 릴리즈 버전 배포하기
+
 ~~~
-> mvn deploy:deploy-file -Dfile=build\jstools-2.7.1.jar -Durl=[Respo URL] -DgroupId=com.miconblog -DartifactId=jstools -Dversion=2.8.0
+$> mvn deploy:deploy-file -Dfile=build\jstools-2.7.1.jar -Durl=[Respo URL] -DgroupId=com.miconblog -DartifactId=jstools -Dversion=2.8.0
 ~~~
+
  - 개발버전 배포는 postfix로 반드시 -SNAPSHOT을 붙여야한다.
+
 ~~~
-> mvn deploy:deploy-file -Dfile=build\jstools-2.7.1.jar -Durl=[Respo URL] -DgroupId=com.miconblog -DartifactId=jstools -Dversion=2.8.0-SNAPSHOT
+$> mvn deploy:deploy-file -Dfile=build\jstools-2.7.1.jar -Durl=[Respo URL] -DgroupId=com.miconblog -DartifactId=jstools -Dversion=2.8.0-SNAPSHOT
 ~~~
 
 #### 메이븐 저장소에 배포된 jstools 땡겨오기
  - jstools 는 여러 라이브러리에 의존하기 때문에 관련된 라이브러리도 같이 기술해야한다.
  - 개발버전일 경우 version에 **-SNAPSHOT**을 붙여준다.
+
 ~~~
 <!-- jstools -->
 <dependency>

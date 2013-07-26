@@ -210,13 +210,13 @@ wel.html(sTpl);
  - 릴리즈 버전 배포하기
 
 ~~~
-$> mvn deploy:deploy-file -Dfile=build\jstools-2.7.1.jar -Durl=[Respo URL] -DgroupId=com.miconblog -DartifactId=jstools -Dversion=2.8.0
+$> mvn deploy:deploy-file -Dfile=build\jstools-2.8.1.jar -Durl=[Respo URL] -DgroupId=com.miconblog -DartifactId=jstools -Dversion=2.8.1
 ~~~
 
  - 개발버전 배포는 postfix로 반드시 -SNAPSHOT을 붙여야한다.
 
 ~~~
-$> mvn deploy:deploy-file -Dfile=build\jstools-2.7.1.jar -Durl=[Respo URL] -DgroupId=com.miconblog -DartifactId=jstools -Dversion=2.8.0-SNAPSHOT
+$> mvn deploy:deploy-file -Dfile=build\jstools-2.8.1.jar -Durl=[Respo URL] -DgroupId=com.miconblog -DartifactId=jstools -Dversion=2.8.1-SNAPSHOT
 ~~~
 
 #### 메이븐 저장소에 배포된 jstools 땡겨오기

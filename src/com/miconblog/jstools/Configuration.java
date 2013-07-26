@@ -11,8 +11,8 @@ import java.util.regex.Pattern;
 
 public class Configuration {
 
-	private String version = "2.8.0";
-	private String releaseDate = "2013-07-08";
+	private String version = "2.8.1";
+	private String releaseDate = "2013-07-26";
 	private String output;
 	private int compress;
 	private int lineBreak;

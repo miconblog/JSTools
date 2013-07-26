@@ -14,14 +14,7 @@
 Java Runtime 1.5+
 
 ## How to build..
-open **build.properties** file edit to your path
-~~~
-# your jstools folder location
-jstools.dir = FIXME/git/JSTools2
-
-# current build version
-jstools.version = 2.8.0
-~~~
+- Run ANT task with build.xml
 
 ## If you wanna use without build
 download zip file from **[/release]** folder and unzip

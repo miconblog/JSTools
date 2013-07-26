@@ -25,7 +25,6 @@ public class JSMeter {
 		Reader in = new InputStreamReader(path.openStream());
 
 		Context cx = Context.enter();
-		//   try {
 		Scriptable scope = cx.initStandardObjects();
 		cx.evaluateReader(scope, in, "<jsmeter>", 1, null);
 		// System.err.println(Context.toString(result));
@@ -80,14 +79,6 @@ public class JSMeter {
 				System.out.println("   [WRAN] Please try again after JSLint cleaned!");
 			}
 		}
-
-		//        } catch(Exception e){
-		//        	System.out.println("   " + e);
-		//        	System.out.println("   [WRAN] Please try again after jslint cleaned!");
-		//        } finally {
-		//            // Exit from the context.
-		//            Context.exit();
-		//        }
 	}
 
 	private String getSource(String path, String encoding) throws IOException {
@@ -102,7 +93,6 @@ public class JSMeter {
 
 		br.close();
 		return sb.toString();
-		// FileUtils.readFileToString(new File(path)); <--- 요거 쓰면 무한루프..-_-
 	}
 
 	private void printObject(Context cx, Scriptable scope, Scriptable fns) {

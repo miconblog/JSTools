@@ -2,6 +2,7 @@
 <project default="create_run_jar_with_version" name="JSTools">
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
+	<property file="version.properties"/>
 	<property file="build.properties"/>
     <target name="create_run_jar">
         <jar destfile="${jstools.dir}/build/jstools.jar" filesetmanifest="mergewithoutmain">

@@ -2,6 +2,11 @@
 JSTools Release Note
 =====================
 
+ver 2.8.1 since 2013-07-26
+---------
+- Fixed BUG: MergeFiles.java by qpitlove
+- 버전 정보와 빌드 정보 파일 분리
+
 ver 2.8.0 since 2013-07-08
 ----------
 - <jstools:merge> 커스텀 태그 추가 

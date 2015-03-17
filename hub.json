@@ -2,7 +2,5 @@
   "title": "JSTools",
   "description": "Javascript build tools for java, it is easy to use and has powerful fetures. it is kind of a java command line tool and supported ANT task.",
   "category" : "Command Line Tool",
-  "theme" : {
-    
-  }
+  "language" : "Java"
 }

@@ -44,7 +44,7 @@ public class MergeTag extends BodyTagSupport {
 				// 디버그 모드가 아니고, 머지 파일이 있는 경우
 				content = includeStaticString(mergedFile);
 
-			} else if( isDebug() == true && mergeListFile !=null && existListFile(mergeListFile) ){
+			} else if( isDebug() == true && mergeListFile != null && existListFile(mergeListFile) ){
 				
 				LOGGER.info("Debug Mode");
 				
